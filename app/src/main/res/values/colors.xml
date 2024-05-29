@@ -11,6 +11,10 @@
 
     <color name="textColorPrimaryLightTheme">#66000000</color>
 
+    <color name="iconColorLightTheme">#FFFFFF</color>
+
+    <color name="menuBackgroundLightTheme">#FFFFFF</color>
+
     <!-- Dark Theme -->
     <color name="colorPrimaryDarkTheme">#303F9F</color>
     <color name="colorPrimaryDarkDarkTheme">#1A237E</color>
@@ -22,4 +26,9 @@
     <color name="colorOnSecondaryDarkTheme">#757575</color>
 
     <color name="textColorPrimaryDarkTheme">#BDBDBD</color>
+
+    <color name="iconColorDarkTheme">#66000000</color>
+
+    <color name="menuBackgroundDarkTheme">#303F9F</color>
+
 </resources>

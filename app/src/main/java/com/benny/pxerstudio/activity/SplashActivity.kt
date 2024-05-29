@@ -1,6 +1,8 @@
 package com.benny.pxerstudio.activity
 
 import android.Manifest
+import android.app.UiModeManager
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -21,7 +23,6 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         setContentView(binding.root)
 
         binding.splashImageView.animate()

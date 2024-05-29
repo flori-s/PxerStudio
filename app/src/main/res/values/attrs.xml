@@ -10,5 +10,6 @@
     </declare-styleable>
 
     <attr name="textColorPrimary" format="reference" />
+    <attr name="colorIcon" format="reference" />
 
 </resources>
