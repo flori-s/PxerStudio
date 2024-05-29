@@ -2,9 +2,21 @@
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@null</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorPrimaryLightTheme</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkLightTheme</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorOnPrimary">@color/colorOnPrimaryLightTheme</item>
+        <item name="colorOnSecondary">@color/colorOnSecondaryLightTheme</item>
+        <item name="textColorPrimary">@color/textColorPrimaryLightTheme</item>
+    </style>
+
+    <style name="AppThemeDark" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimaryDarkTheme</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkDarkTheme</item>
+        <item name="colorAccent">@color/colorAccentDarkTheme</item>
+        <item name="colorOnPrimary">@color/colorOnPrimaryDarkTheme</item>
+        <item name="colorOnSecondary">@color/colorOnSecondaryDarkTheme</item>
+        <item name="textColorPrimary">@color/textColorPrimaryDarkTheme</item>
     </style>
 
     <style name="AppTheme.Splash" parent="AppTheme" />
