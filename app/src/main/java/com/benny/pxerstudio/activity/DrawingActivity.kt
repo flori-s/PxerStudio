@@ -10,6 +10,7 @@ import android.content.res.Resources
 import android.graphics.Color
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
@@ -17,10 +18,12 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
 import android.widget.SeekBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.core.text.parseAsHtml
 import androidx.core.view.isInvisible
@@ -30,6 +33,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.customView
+import com.afollestad.materialdialogs.customview.getCustomView
 import com.afollestad.materialdialogs.files.FileFilter
 import com.afollestad.materialdialogs.files.fileChooser
 import com.afollestad.materialdialogs.input.input
@@ -84,10 +88,10 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
             field = value
             binding!!.drawingToolbarTextView.text =
                 (
-                    "PxerStudio<br><small><small>" +
-                        binding!!.drawingPxerView.projectName +
-                        (if (value) "*" else "") + "</small></small>"
-                    ).parseAsHtml()
+                        "PxerStudio<br><small><small>" +
+                                binding!!.drawingPxerView.projectName +
+                                (if (value) "*" else "") + "</small></small>"
+                        ).parseAsHtml()
         }
 
     private lateinit var layerAdapter: FastAdapter<LayerThumbItem>
@@ -103,13 +107,13 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
     fun setTitle(subtitle: String?, edited: Boolean) {
         binding!!.drawingToolbarTextView.text =
             (
-                "PxerStudio<br><small><small>" +
-                    if (subtitle.isNullOrEmpty()) {
-                        UNTITLED
-                    } else {
-                        subtitle + (if (edited) "*" else "") + "</small></small>"
-                    }
-                ).parseAsHtml()
+                    "PxerStudio<br><small><small>" +
+                            if (subtitle.isNullOrEmpty()) {
+                                UNTITLED
+                            } else {
+                                subtitle + (if (edited) "*" else "") + "</small></small>"
+                            }
+                    ).parseAsHtml()
         isEdited = edited
     }
 
@@ -244,7 +248,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
         selectExtension.allowDeselection = true
 
         toolsAdapter.onClickListener = { _, _, item, _ ->
-            binding!!.drawingToolsFab.setImageResource(item.icon)
+            binding!!.drawingToolsFab.setImageDrawable(ContextCompat.getDrawable(this, item.icon))
             when (item.icon) {
                 R.drawable.ic_check_box_outline_blank -> {
                     binding!!.drawingPxerView.mode = PxerView.Mode.ShapeTool
@@ -273,48 +277,73 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
         }
 
         toolsAdapter.onLongClickListener = { _, _, item, _ ->
-            binding!!.drawingToolsFab.setImageResource(item.icon)
+            binding!!.drawingToolsFab.setImageDrawable(ContextCompat.getDrawable(this, item.icon))
             when (item.icon) {
                 R.drawable.ic_eraser -> {
                     MaterialDialog(this).show {
+                        customView(R.layout.dialog_seekbar)
                         title(R.string.eraser_width)
-                        input(
-                            getString(R.string.width),
-                            prefill = eraserShapeFactory.width.toInt().toString(),
-                            inputType = InputType.TYPE_CLASS_NUMBER,
-                        ) { _, data ->
-                            eraserShapeFactory.width = data.toString().toFloat()
+                        val seekBar = getCustomView().findViewById<SeekBar>(R.id.dialog_seekbar)
+                        val valueTextView = getCustomView().findViewById<TextView>(R.id.dialog_seekbar_value)
+                        seekBar.progress = eraserShapeFactory.width.toInt()
+                        valueTextView.text = seekBar.progress.toString()
+                        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                                valueTextView.text = progress.toString()
+                            }
+                            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+                            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+                        })
+                        positiveButton(R.string.ok) {
+                            eraserShapeFactory.width = seekBar.progress.toFloat()
                             binding!!.drawingPxerView.shapeTool = eraserShapeFactory
                         }
                     }
                 }
                 R.drawable.ic_brush -> {
                     MaterialDialog(this).show {
-                        title(R.string.brush_width)
-                        input(
-                            getString(R.string.width),
-                            prefill = brushShapeFactory.width.toInt().toString(),
-                            inputType = InputType.TYPE_CLASS_NUMBER,
-                        ) { _, data ->
-                            brushShapeFactory.width = data.toString().toFloat()
+                        customView(R.layout.dialog_seekbar)
+                        title(R.string.pencil_width)
+                        val seekBar = getCustomView().findViewById<SeekBar>(R.id.dialog_seekbar)
+                        val valueTextView = getCustomView().findViewById<TextView>(R.id.dialog_seekbar_value)
+                        seekBar.progress = brushShapeFactory.width.toInt()
+                        valueTextView.text = seekBar.progress.toString()
+                        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                                valueTextView.text = progress.toString()
+                            }
+                            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+                            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+                        })
+                        positiveButton(R.string.ok) {
+                            brushShapeFactory.width = seekBar.progress.toFloat()
                             binding!!.drawingPxerView.shapeTool = brushShapeFactory
                         }
                     }
                 }
+
                 R.drawable.ic_remove -> {
                     MaterialDialog(this).show {
+                        customView(R.layout.dialog_seekbar)
                         title(R.string.line_width)
-                        input(
-                            getString(R.string.width),
-                            prefill = lineShapeFactory.width.toInt().toString(),
-                            inputType = InputType.TYPE_CLASS_NUMBER,
-                        ) { _, data ->
-                            lineShapeFactory.width = data.toString().toFloat()
+                        val seekBar = getCustomView().findViewById<SeekBar>(R.id.dialog_seekbar)
+                        val valueTextView = getCustomView().findViewById<TextView>(R.id.dialog_seekbar_value)
+                        seekBar.progress = lineShapeFactory.width.toInt()
+                        valueTextView.text = seekBar.progress.toString()
+                        seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                                valueTextView.text = progress.toString()
+                            }
+                            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+                            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+                        })
+                        positiveButton(R.string.ok) {
+                            lineShapeFactory.width = seekBar.progress.toFloat()
                             binding!!.drawingPxerView.shapeTool = lineShapeFactory
                         }
                     }
                 }
-                // R.drawable.ic_edit -> { }
+
             }
             false
         }
