@@ -2,17 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/menu_popup_layer_toggleVisibility"
-        android:title="@string/toggle_visibility" />
+        android:title="@string/toggle_visibility"
+        android:iconTint="?attr/menuTextColor" />
     <item
         android:id="@+id/menu_popup_layer_duplicate"
-        android:title="@string/duplicate_layer" />
+        android:title="@string/duplicate_layer"
+        android:iconTint="?attr/menuTextColor" />
     <item
         android:id="@+id/menu_popup_layer_remove"
-        android:title="@string/remove" />
+        android:title="@string/remove"
+        android:iconTint="?attr/menuTextColor" />
     <item
         android:id="@+id/menu_popup_layer_clear"
-        android:title="@string/clear" />
+        android:title="@string/clear"
+        android:iconTint="?attr/menuTextColor" />
     <item
         android:id="@+id/menu_popup_layer_mergeDown"
-        android:title="@string/merge_down" />
+        android:title="@string/merge_down"
+        android:iconTint="?attr/menuTextColor" />
 </menu>

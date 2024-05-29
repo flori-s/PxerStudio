@@ -1,10 +1,12 @@
 package com.benny.pxerstudio.activity
 
 import android.annotation.SuppressLint
+import android.app.UiModeManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
+import android.content.res.Resources
 import android.graphics.Color
 import android.os.Bundle
 import android.text.InputType
@@ -16,7 +18,9 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.ImageView
 import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.PopupMenu
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.edit
 import androidx.core.text.parseAsHtml
 import androidx.core.view.isInvisible
@@ -113,12 +117,25 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
 
     private var binding: ActivityDrawingBinding? = null
 
+    private var isNightModeEnabled = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
+
         mContext = this
         binding = ActivityDrawingBinding.inflate(layoutInflater)
         val view = binding!!.root
         setContentView(view)
+
+        val toolbar = findViewById<Toolbar>(R.id.drawing_toolbar)
+        val isDarkThemeActive = isNightModeCurrentlyEnabled()
+
+        if (isDarkThemeActive) {
+            toolbar.popupTheme = R.style.OverflowMenuThemeDark
+        } else {
+            toolbar.popupTheme = R.style.OverflowMenuThemeLight
+        }
 
         setTitle(UNTITLED, false)
         binding!!.drawingToolbar.title = ""
@@ -147,6 +164,22 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
             layerItemAdapter.getAdapterItem(0).pressed()
         }
         System.gc()
+    }
+
+    override fun getTheme(): Resources.Theme {
+        val theme = super.getTheme()
+
+        // Check if night mode is currently enabled
+        if (isNightModeCurrentlyEnabled()) {
+            // If night mode is enabled, apply the dark theme
+            theme.applyStyle(R.style.AppThemeDark, true)
+        } else {
+            // If night mode is not enabled, apply the light theme
+            theme.applyStyle(R.style.AppTheme, true)
+        }
+
+        // Return the theme
+        return theme
     }
 
     override fun onColorDropped(newColor: Int) {
@@ -451,6 +484,13 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
+
+        // Set the theme based on the night mode setting
+        if (isNightModeCurrentlyEnabled()) {
+            setTheme(R.style.AppThemeDark)
+        } else {
+            setTheme(R.style.AppTheme)
+        }
         menuInflater.inflate(R.menu.menu_activity_drawing, menu)
         return super.onCreateOptionsMenu(menu)
     }
@@ -821,5 +861,9 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
 
             override fun unbindView(item: ToolItem) {}
         }
+    }
+    private fun isNightModeCurrentlyEnabled(): Boolean {
+        val uiModeManager = getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
+        return uiModeManager.nightMode == UiModeManager.MODE_NIGHT_YES
     }
 }

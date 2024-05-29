@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="@string/no_project_found"
-        android:textColor="@android:color/white" />
+        android:textColor="?attr/colorOnPrimary" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/cM_recyclerView"

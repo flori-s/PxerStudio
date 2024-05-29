@@ -2,9 +2,31 @@
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@null</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorPrimaryLightTheme</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkLightTheme</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorOnPrimary">@color/colorOnPrimaryLightTheme</item>
+        <item name="colorOnSecondary">@color/colorOnSecondaryLightTheme</item>
+        <item name="textColorPrimary">@color/textColorPrimaryLightTheme</item>
+        <item name="colorIcon">@color/iconColorLightTheme</item>
+        <item name="android:itemBackground">@color/menuBackgroundLightTheme</item>
+        <item name="android:popupTheme">@style/AppTheme.PopupOverlay</item>
+        <item name="menuBackground">@color/menuBackgroundLight</item>
+        <item name="menuTextColor">@color/menuTextColorLight</item>
+    </style>
+
+    <style name="AppThemeDark" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimaryDarkTheme</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkDarkTheme</item>
+        <item name="colorAccent">@color/colorAccentDarkTheme</item>
+        <item name="colorOnPrimary">@color/colorOnPrimaryDarkTheme</item>
+        <item name="colorOnSecondary">@color/colorOnSecondaryDarkTheme</item>
+        <item name="textColorPrimary">@color/textColorPrimaryDarkTheme</item>
+        <item name="colorIcon">@color/iconColorDarkTheme</item>
+        <item name="android:itemBackground">@color/menuBackgroundDarkTheme</item>
+        <item name="android:popupTheme">@style/AppThemeDark.PopupOverlay</item>
+        <item name="menuBackground">@color/menuBackgroundDark</item>
+        <item name="menuTextColor">@color/menuTextColorDark</item>
     </style>
 
     <style name="AppTheme.Splash" parent="AppTheme" />
@@ -17,5 +39,21 @@
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <!-- Popup theme for light theme -->
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:colorBackground">?attr/menuBackground</item>
+    </style>
+
+    <!-- Popup theme for dark theme -->
+    <style name="AppThemeDark.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:colorBackground">?attr/menuBackground</item>
+    </style>
+
+    <style name="OverflowMenuThemeLight" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColorSecondary">?attr/menuTextColor</item>
+    </style>
+
+    <style name="OverflowMenuThemeDark" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:textColorSecondary">?attr/menuTextColor</item>
+    </style>
 </resources>

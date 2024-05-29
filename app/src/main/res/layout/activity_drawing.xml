@@ -18,8 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:titleTextAppearance="@style/TextThemeToolBar">
+            app:titleTextAppearance="@style/TextThemeToolBar"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <TextView
                 android:id="@+id/drawing_toolbar_textView"
@@ -29,7 +29,7 @@
                 android:autoSizeTextType="uniform"
                 android:onClick="onProjectTitleClicked"
                 android:textAppearance="@style/TextTheme"
-                android:textColor="?android:textColorPrimary" />
+                android:textColor="?attr/colorOnPrimary"/>
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -131,8 +131,8 @@
         android:onClick="onToggleToolsPanel"
         android:src="@drawable/ic_edit"
         app:layout_anchorGravity="bottom|right"
-        fab:fab_colorNormal="?colorAccent"
-        fab:fab_colorPressed="?colorAccent"
+        fab:fab_colorNormal="?attr/colorAccent"
+        fab:fab_colorPressed="?attr/colorAccent"
         fab:fab_colorRipple="#66FFFFFF"
         fab:fab_size="normal" />
 
@@ -151,8 +151,8 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/fab_undo"
             android:src="@drawable/ic_undo"
-            fab:fab_colorNormal="?colorAccent"
-            fab:fab_colorPressed="?colorAccent"
+            fab:fab_colorNormal="?attr/colorAccent"
+            fab:fab_colorPressed="?attr/colorAccent"
             fab:fab_colorRipple="#66FFFFFF"
             fab:fab_showShadow="true"
             fab:fab_size="mini" />
@@ -163,8 +163,8 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/fab_redo"
             android:src="@drawable/ic_redo"
-            fab:fab_colorNormal="?colorAccent"
-            fab:fab_colorPressed="?colorAccent"
+            fab:fab_colorNormal="?attr/colorAccent"
+            fab:fab_colorPressed="?attr/colorAccent"
             fab:fab_colorRipple="#66FFFFFF"
             fab:fab_showShadow="true"
             fab:fab_size="mini" />
@@ -186,8 +186,8 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/fab_eyedropper"
             android:src="@drawable/ic_colorize"
-            fab:fab_colorNormal="?colorAccent"
-            fab:fab_colorPressed="?colorAccent"
+            fab:fab_colorNormal="?attr/colorAccent"
+            fab:fab_colorPressed="?attr/colorAccent"
             fab:fab_colorRipple="#66FFFFFF"
             fab:fab_showShadow="true"
             fab:fab_size="mini" />

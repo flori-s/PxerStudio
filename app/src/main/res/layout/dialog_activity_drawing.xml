@@ -37,7 +37,7 @@
         android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:text="@string/exportSize"
-        android:textColor="?android:textColorPrimary"
+        android:textColor="?attr/textColorPrimary"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dialog_frame_delay_edit"
         tools:layout_conversion_absoluteHeight="16dp"
@@ -69,7 +69,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:text="@string/gifSpeed"
-        android:textColor="?android:attr/textColorPrimary"
+        android:textColor="?attr/textColorPrimary"
         app:layout_constraintBottom_toBottomOf="@+id/dialog_frame_delay_edit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dialog_drawing_name_edit" />

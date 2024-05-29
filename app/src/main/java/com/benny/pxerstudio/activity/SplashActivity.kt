@@ -1,12 +1,15 @@
 package com.benny.pxerstudio.activity
 
 import android.Manifest
+import android.app.UiModeManager
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
 import com.benny.pxerstudio.R
 import com.benny.pxerstudio.databinding.ActivitySplashBinding
@@ -37,27 +40,27 @@ class SplashActivity : AppCompatActivity() {
             .interpolator = AccelerateDecelerateInterpolator()
 
 //        AdHelper.checkAndInitAd(this)
-
-        handler = Handler()
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            handler!!.postDelayed({
-                startActivity(Intent(this@SplashActivity, DrawingActivity::class.java))
-                finish()
-            }, 2000L)
-        } else {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                ),
-                0x456,
-            )
-        }
+        startActivity(Intent(this@SplashActivity, DrawingActivity::class.java))
+//        handler = Handler()
+//        if (ActivityCompat.checkSelfPermission(
+//                this,
+//                Manifest.permission.READ_EXTERNAL_STORAGE,
+//            ) == PackageManager.PERMISSION_GRANTED
+//        ) {
+//            handler!!.postDelayed({
+//                startActivity(Intent(this@SplashActivity, DrawingActivity::class.java))
+//                finish()
+//            }, 2000L)
+//        } else {
+//            ActivityCompat.requestPermissions(
+//                this,
+//                arrayOf(
+//                    Manifest.permission.READ_EXTERNAL_STORAGE,
+//                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                ),
+//                0x456,
+//            )
+//        }
     }
 
     override fun onRequestPermissionsResult(
