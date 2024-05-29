@@ -15,6 +15,9 @@
 
     <color name="menuBackgroundLightTheme">#FFFFFF</color>
 
+    <color name="menuBackgroundLight">#FFFFFF</color>
+    <color name="menuTextColorLight">#000000</color>
+
     <!-- Dark Theme -->
     <color name="colorPrimaryDarkTheme">#303F9F</color>
     <color name="colorPrimaryDarkDarkTheme">#1A237E</color>
@@ -31,4 +34,6 @@
 
     <color name="menuBackgroundDarkTheme">#303F9F</color>
 
+    <color name="menuBackgroundDark">#303F9F</color>
+    <color name="menuTextColorDark">#BDBDBD</color>
 </resources>

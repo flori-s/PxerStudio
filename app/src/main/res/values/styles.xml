@@ -11,6 +11,8 @@
         <item name="colorIcon">@color/iconColorLightTheme</item>
         <item name="android:itemBackground">@color/menuBackgroundLightTheme</item>
         <item name="android:popupTheme">@style/AppTheme.PopupOverlay</item>
+        <item name="menuBackground">@color/menuBackgroundLight</item>
+        <item name="menuTextColor">@color/menuTextColorLight</item>
     </style>
 
     <style name="AppThemeDark" parent="Theme.AppCompat.DayNight.NoActionBar">
@@ -23,6 +25,8 @@
         <item name="colorIcon">@color/iconColorDarkTheme</item>
         <item name="android:itemBackground">@color/menuBackgroundDarkTheme</item>
         <item name="android:popupTheme">@style/AppThemeDark.PopupOverlay</item>
+        <item name="menuBackground">@color/menuBackgroundDark</item>
+        <item name="menuTextColor">@color/menuTextColorDark</item>
     </style>
 
     <style name="AppTheme.Splash" parent="AppTheme" />
@@ -37,11 +41,19 @@
 
     <!-- Popup theme for light theme -->
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
-        <item name="android:colorBackground">@color/menuBackgroundLightTheme</item>
+        <item name="android:colorBackground">?attr/menuBackground</item>
     </style>
 
     <!-- Popup theme for dark theme -->
     <style name="AppThemeDark.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark">
-        <item name="android:colorBackground">@color/menuBackgroundDarkTheme</item>
+        <item name="android:colorBackground">?attr/menuBackground</item>
+    </style>
+
+    <style name="OverflowMenuThemeLight" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textColorSecondary">?attr/menuTextColor</item>
+    </style>
+
+    <style name="OverflowMenuThemeDark" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:textColorSecondary">?attr/menuTextColor</item>
     </style>
 </resources>

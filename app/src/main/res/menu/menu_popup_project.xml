@@ -2,8 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/menu_popup_project_rename"
-        android:title="@string/rename" />
+        android:title="@string/rename"
+        android:iconTint="?attr/menuTextColor" />
     <item
         android:id="@+id/menu_popup_project_delete"
-        android:title="@string/delete" />
+        android:title="@string/delete"
+        android:iconTint="?attr/menuTextColor" />
 </menu>

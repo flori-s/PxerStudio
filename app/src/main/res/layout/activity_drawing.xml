@@ -18,8 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:titleTextAppearance="@style/TextThemeToolBar">
+            app:titleTextAppearance="@style/TextThemeToolBar"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <TextView
                 android:id="@+id/drawing_toolbar_textView"
