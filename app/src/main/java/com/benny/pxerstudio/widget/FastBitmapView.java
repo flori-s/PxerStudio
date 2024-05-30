@@ -12,11 +12,14 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 
 import com.benny.pxerstudio.R;
 import com.benny.pxerstudio.util.ContextKt;
 import com.benny.pxerstudio.util.Utils;
+
+import java.util.Objects;
 
 /**
  * Created by BennyKok on 10/10/2016.
@@ -90,7 +93,7 @@ public class FastBitmapView extends View {
 
         strokeWidth = ContextKt.convertDpToPixel(getContext(), strokeWidth);
 
-        invisibleBitmap = Utils.drawableToBitmap(getResources().getDrawable(R.drawable.ic_visibility_off));
+        invisibleBitmap = Utils.drawableToBitmap(Objects.requireNonNull(ContextCompat.getDrawable(getContext(), R.drawable.ic_visibility_off)));
 
         setWillNotDraw(false);
     }

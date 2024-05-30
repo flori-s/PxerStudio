@@ -13,4 +13,6 @@
     <attr name="colorIcon" format="reference" />
     <attr name="menuBackground" format="color" />
     <attr name="menuTextColor" format="color" />
+    <attr name="pxerview_background_color" format="color" />
+
 </resources>

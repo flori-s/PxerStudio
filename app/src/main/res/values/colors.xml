@@ -17,23 +17,24 @@
 
     <color name="menuBackgroundLight">#FFFFFF</color>
     <color name="menuTextColorLight">#000000</color>
+    <color name="transparent">#00000000</color>
 
     <!-- Dark Theme -->
-    <color name="colorPrimaryDarkTheme">#303F9F</color>
-    <color name="colorPrimaryDarkDarkTheme">#1A237E</color>
-    <color name="colorAccentDarkTheme">#5C6BC0</color>
+    <color name="colorPrimaryDarkTheme">#040B37</color>
+    <color name="colorPrimaryDarkDarkTheme">#020312</color>
+    <color name="colorAccentDarkTheme">#000D54</color>
 
     <color name="black_overlayDarkTheme">#66000000</color>
 
-    <color name="colorOnPrimaryDarkTheme">#BDBDBD</color>
+    <color name="colorOnPrimaryDarkTheme">#66BEBEBE</color>
     <color name="colorOnSecondaryDarkTheme">#757575</color>
 
-    <color name="textColorPrimaryDarkTheme">#BDBDBD</color>
+    <color name="textColorPrimaryDarkTheme">#66BEBEBE</color>
 
-    <color name="iconColorDarkTheme">#66000000</color>
+    <color name="iconColorDarkTheme">#66BEBEBE</color>
 
-    <color name="menuBackgroundDarkTheme">#303F9F</color>
+    <color name="menuBackgroundDarkTheme">#060D3C</color>
 
-    <color name="menuBackgroundDark">#303F9F</color>
-    <color name="menuTextColorDark">#BDBDBD</color>
+    <color name="menuBackgroundDark">#000941</color>
+    <color name="menuTextColorDark">#66BEBEBE</color>
 </resources>
