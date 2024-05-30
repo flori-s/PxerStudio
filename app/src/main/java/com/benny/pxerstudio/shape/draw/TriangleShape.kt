@@ -5,10 +5,8 @@ import com.benny.pxerstudio.widget.PxerView
 import com.benny.pxerstudio.widget.PxerView.Pxer
 import kotlin.math.abs
 
-/**
- * Created by BennyKok on 10/12/2016.
- */
-class RectShape : DrawShape() {
+
+class TriangleShape : DrawShape() {
     private val previousPxer = ArrayList<Pxer>()
 
     override fun onDraw(
@@ -25,24 +23,20 @@ class RectShape : DrawShape() {
         val layerToDraw = pxerView.pxerLayers[pxerView.currentLayer]!!.bitmap
         draw(layerToDraw!!, previousPxer)
 
-        val rectWidth = abs(startX - endX)
-        val rectHeight = abs(startY - endY)
+        val triangleWidth = abs(startX - endX)
+        val triangleHeight = abs(startY - endY)
 
-        for (i in 0 until rectWidth + 1) {
-            val mX = startX + i * if (endX - startX < 0) -1 else 1
-            addPxerView(previousPxer, pxerView, mX, startY)
-            addPxerView(previousPxer, pxerView, mX, endY)
-            drawOnLayer(layerToDraw, pxerView, mX, startY)
-            drawOnLayer(layerToDraw, pxerView, mX, endY)
-        }
-
-        for (i in 1 until rectHeight) {
+        for (i in 0 until triangleHeight + 1) {
             val mY = startY + i * if (endY - startY < 0) -1 else 1
-            addPxerView(previousPxer, pxerView, startX, mY)
-            addPxerView(previousPxer, pxerView, endX, mY)
-            drawOnLayer(layerToDraw, pxerView, startX, mY)
-            drawOnLayer(layerToDraw, pxerView, endX, mY)
+            val mXStart = startX + i * if (endX - startX < 0) -1 else 1
+            val mXEnd = endX - i * if (endX - startX < 0) -1 else 1
+
+            for (j in mXStart until mXEnd + 1) {
+                addPxerView(previousPxer, pxerView, j, mY)
+                drawOnLayer(layerToDraw, pxerView, j, mY)
+            }
         }
+
         pxerView.invalidate()
         return true
     }

@@ -47,7 +47,8 @@
             android:id="@+id/drawing_pxerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:background="?attr/pxerview_background_color" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/drawing_tools_cardView"
@@ -55,7 +56,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="end"
             android:visibility="invisible"
-            app:cardBackgroundColor="#424242"
+            app:cardBackgroundColor="?attr/colorPrimary"
             app:cardElevation="8dp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 

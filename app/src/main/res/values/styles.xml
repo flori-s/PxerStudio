@@ -13,6 +13,7 @@
         <item name="android:popupTheme">@style/AppTheme.PopupOverlay</item>
         <item name="menuBackground">@color/menuBackgroundLight</item>
         <item name="menuTextColor">@color/menuTextColorLight</item>
+        <item name="pxerview_background_color">@color/transparent</item>
     </style>
 
     <style name="AppThemeDark" parent="Theme.AppCompat.DayNight.NoActionBar">
@@ -27,6 +28,7 @@
         <item name="android:popupTheme">@style/AppThemeDark.PopupOverlay</item>
         <item name="menuBackground">@color/menuBackgroundDark</item>
         <item name="menuTextColor">@color/menuTextColorDark</item>
+        <item name="pxerview_background_color">@color/colorPrimaryDarkDarkTheme</item>
     </style>
 
     <style name="AppTheme.Splash" parent="AppTheme" />

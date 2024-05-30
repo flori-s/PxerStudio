@@ -9,7 +9,6 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Color
 import android.os.Bundle
-import android.text.InputType
 import android.util.Log
 import android.util.TypedValue
 import android.view.Menu
@@ -20,7 +19,6 @@ import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -36,7 +34,6 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.afollestad.materialdialogs.files.FileFilter
 import com.afollestad.materialdialogs.files.fileChooser
-import com.afollestad.materialdialogs.input.input
 import com.benny.pxerstudio.R
 import com.benny.pxerstudio.colorpicker.ColorPicker
 import com.benny.pxerstudio.databinding.ActivityDrawingBinding
@@ -47,8 +44,10 @@ import com.benny.pxerstudio.exportable.GifExportable
 import com.benny.pxerstudio.exportable.PngExportable
 import com.benny.pxerstudio.shape.EraserShape
 import com.benny.pxerstudio.shape.draw.BrushShape
+import com.benny.pxerstudio.shape.draw.CircleShape
 import com.benny.pxerstudio.shape.draw.LineShape
 import com.benny.pxerstudio.shape.draw.RectShape
+import com.benny.pxerstudio.shape.draw.TriangleShape
 import com.benny.pxerstudio.util.prompt
 import com.benny.pxerstudio.util.stripExtension
 import com.benny.pxerstudio.widget.FastBitmapView
@@ -69,6 +68,8 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
     companion object {
         const val UNTITLED = "Untitled"
         val rectShapeFactory = RectShape()
+        val circleShapeFactory = CircleShape()
+        val triangleShapeFactory = TriangleShape()
         val lineShapeFactory = LineShape()
         val eraserShapeFactory = EraserShape()
         val brushShapeFactory = BrushShape()
@@ -99,6 +100,9 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
 
     private lateinit var toolsAdapter: FastAdapter<ToolItem>
     private lateinit var toolsItemAdapter: ItemAdapter<ToolItem>
+
+    private lateinit var shapesAdapter: FastAdapter<ShapesItem>
+    private lateinit var shapesItemAdapter: ItemAdapter<ShapesItem>
 
     private lateinit var cp: ColorPicker
 
@@ -151,7 +155,9 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
         binding!!.drawingPxerView.setDropperCallBack(this)
 
         setUpLayersView()
+        setupShapesMenu()
         setupControl()
+
 
         currentProjectPath = pxerPref.getString("lastOpenedProject", null)
         print(currentProjectPath)
@@ -208,6 +214,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
     @Suppress("UNUSED_PARAMETER")
     fun onToggleToolsPanel(view: View) {
         if (binding!!.drawingToolsCardView.isInvisible) {
+            binding!!.drawingShapesCardView.isInvisible = true
             binding!!.drawingToolsCardView.isVisible = true
             binding!!.drawingToolsCardView
                 .animate()
@@ -224,6 +231,87 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                     binding!!.drawingToolsCardView.isInvisible = true
                 }
         }
+    }
+
+    fun onToggleShapesPanel(view: View) {
+        println("onToggleShapesPanel")
+        Log.d("ViewDebug", "drawingShapesCardView visibility before: ${binding?.drawingShapesCardView?.visibility}")
+        if (binding!!.drawingShapesCardView.isInvisible) {
+            binding!!.drawingShapesCardView.isVisible = true
+            binding!!.drawingToolsCardView.isInvisible = true
+            binding!!.drawingShapesCardView.alpha = 1f
+            binding!!.drawingShapesCardView.scaleX = 1f
+            binding!!.drawingShapesCardView.scaleY = 1f
+            binding!!.drawingShapesCardView
+                .animate()
+                .setDuration(100)
+                .setInterpolator(AccelerateDecelerateInterpolator())
+                .translationX(0f)
+        } else {
+            binding!!.drawingShapesCardView
+                .animate()
+                .setDuration(100)
+                .setInterpolator(AccelerateDecelerateInterpolator())
+                .translationX((+binding!!.drawingShapesCardView.width).toFloat())
+                .withEndAction {
+                    binding!!.drawingShapesCardView.isInvisible = true
+                }
+        }
+        Log.d("ViewDebug", "drawingShapesCardView visibility after: ${binding!!.drawingShapesCardView.visibility}")
+    }
+
+    @SuppressLint("CheckResult")
+    private fun setupShapesMenu() {
+        binding!!.drawingShapesCardView.post {
+            binding!!.drawingShapesCardView.translationX =
+                (binding!!.drawingShapesCardView.width).toFloat()
+        }
+
+        shapesItemAdapter = ItemAdapter()
+        shapesAdapter = FastAdapter.with(shapesItemAdapter)
+
+        binding!!.drawingShapesRecyclerView.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true)
+        binding!!.drawingShapesRecyclerView.adapter = shapesAdapter
+
+        binding!!.drawingShapesRecyclerView.itemAnimator = DefaultItemAnimator()
+
+        val selectExtension = shapesAdapter.getSelectExtension()
+        selectExtension.isSelectable = true
+        selectExtension.multiSelect = false
+        selectExtension.allowDeselection = true
+
+        shapesAdapter.onClickListener = { _, _, item, _ ->
+            binding!!.drawingFabShapes.setImageDrawable(ContextCompat.getDrawable(this, item.icon))
+            when (item.icon) {
+                R.drawable.ic_circle-> {
+                    binding!!.drawingPxerView.mode = PxerView.Mode.ShapeTool
+                    binding!!.drawingPxerView.shapeTool = circleShapeFactory
+                }
+                R.drawable.ic_triangle -> {
+                    binding!!.drawingPxerView.mode = PxerView.Mode.ShapeTool
+                    binding!!.drawingPxerView.shapeTool = triangleShapeFactory
+                }
+                R.drawable.ic_check_box_outline_blank -> {
+                    binding!!.drawingPxerView.mode = PxerView.Mode.ShapeTool
+                    binding!!.drawingPxerView.shapeTool = rectShapeFactory
+                }
+                R.drawable.ic_remove -> {
+                    binding!!.drawingPxerView.mode = PxerView.Mode.ShapeTool
+                    binding!!.drawingPxerView.shapeTool = lineShapeFactory
+                }
+            }
+            false
+        }
+
+        with(shapesItemAdapter) {
+            add(ShapesItem(R.drawable.ic_circle))
+            add(ShapesItem(R.drawable.ic_triangle))
+            add(ShapesItem(R.drawable.ic_check_box_outline_blank))
+            add(ShapesItem(R.drawable.ic_remove))
+        }
+        shapesItemAdapter.adapterItems.reverse()
+        shapesAdapter.getSelectExtension().select(0)
     }
 
     @SuppressLint("CheckResult")
@@ -250,14 +338,6 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
         toolsAdapter.onClickListener = { _, _, item, _ ->
             binding!!.drawingToolsFab.setImageDrawable(ContextCompat.getDrawable(this, item.icon))
             when (item.icon) {
-                R.drawable.ic_check_box_outline_blank -> {
-                    binding!!.drawingPxerView.mode = PxerView.Mode.ShapeTool
-                    binding!!.drawingPxerView.shapeTool = rectShapeFactory
-                }
-                R.drawable.ic_remove -> {
-                    binding!!.drawingPxerView.mode = PxerView.Mode.ShapeTool
-                    binding!!.drawingPxerView.shapeTool = lineShapeFactory
-                }
                 R.drawable.ic_format_color_fill -> {
                     binding!!.drawingPxerView.mode = PxerView.Mode.Fill
                 }
@@ -349,8 +429,6 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
         }
 
         with(toolsItemAdapter) {
-            add(ToolItem(R.drawable.ic_check_box_outline_blank))
-            add(ToolItem(R.drawable.ic_remove))
             add(ToolItem(R.drawable.ic_brush))
             add(ToolItem(R.drawable.ic_format_color_fill))
             add(ToolItem(R.drawable.ic_eraser))
@@ -889,6 +967,35 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
             }
 
             override fun unbindView(item: ToolItem) {}
+        }
+    }
+
+    private inner class ShapesItem(var icon: Int) : AbstractItem<ShapesItem.ViewHolder>() {
+
+        override val type: Int
+            get() = R.id.item_shape
+
+        override val layoutRes: Int
+            get() = R.layout.item_shape
+
+        override fun getViewHolder(v: View): ViewHolder {
+            return ViewHolder(v)
+        }
+
+        inner class ViewHolder(view: View) : FastAdapter.ViewHolder<ShapesItem>(view) {
+            var iv: ImageView = view as ImageView
+
+            override fun bindView(item: ShapesItem, payloads: List<Any>) {
+                if (isSelected) {
+                    iv.alpha = 1f
+                } else {
+                    iv.alpha = 0.3f
+                }
+
+                iv.setImageResource(item.icon)
+            }
+
+            override fun unbindView(item: ShapesItem) {}
         }
     }
     private fun isNightModeCurrentlyEnabled(): Boolean {

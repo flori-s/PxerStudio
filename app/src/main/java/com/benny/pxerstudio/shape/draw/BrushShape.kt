@@ -1,6 +1,7 @@
 package com.benny.pxerstudio.shape.draw
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
@@ -65,6 +66,17 @@ class BrushShape : BaseShape() {
         super.onDrawEnd(pxerView)
         hasInit = false
         pxerView.endDraw(previousPxer)
+    }
+
+    override fun drawLine(
+        layerToDraw: Bitmap,
+        previousPxer: ArrayList<Pxer>,
+        pxerView: Int,
+        startX: Int,
+        startY: Int,
+        endX: Int
+    ) {
+        TODO("Not yet implemented")
     }
 
     fun setWidth() {

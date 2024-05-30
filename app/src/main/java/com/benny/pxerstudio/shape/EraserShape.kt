@@ -1,5 +1,6 @@
 package com.benny.pxerstudio.shape
 
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
@@ -62,6 +63,17 @@ class EraserShape : BaseShape() {
         super.onDrawEnd(pxerView)
         hasInit = false
         pxerView.endDraw(previousPxer)
+    }
+
+    override fun drawLine(
+        layerToDraw: Bitmap,
+        previousPxer: ArrayList<Pxer>,
+        pxerView: Int,
+        startX: Int,
+        startY: Int,
+        endX: Int
+    ) {
+        TODO("Not yet implemented")
     }
 
     init {
