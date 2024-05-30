@@ -1,5 +1,6 @@
 package com.benny.pxerstudio.shape
 
+import android.graphics.Bitmap
 import com.benny.pxerstudio.widget.PxerView
 import com.benny.pxerstudio.widget.PxerView.Pxer
 
@@ -43,4 +44,6 @@ abstract class BaseShape {
         this.setUnrecordedChanges(true)
         this.finishAddHistory()
     }
+
+    abstract fun drawLine(layerToDraw: Bitmap, previousPxer: ArrayList<PxerView.Pxer>, pxerView: Int, startX: Int, startY: Int, endX: Int)
 }

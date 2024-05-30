@@ -1,5 +1,6 @@
 package com.benny.pxerstudio.shape.draw
 
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Paint
 import com.benny.pxerstudio.widget.PxerView
@@ -59,7 +60,7 @@ class LineShape : DrawShape() {
                 var c = pxerView.preview!!.getPixel(i, y)
                 if ((i == startX && y == startY) || (i == endX && y == endY)) c = Color.YELLOW
                 if (c == Color.YELLOW) {
-                    addPxerView(layerToDraw, previousPxer, i, y)
+                    addPxerView(previousPxer, pxerView, i, y)
                     drawOnLayer(layerToDraw, pxerView, i, y)
                 }
             }
@@ -72,6 +73,17 @@ class LineShape : DrawShape() {
         super.onDrawEnd(pxerView)
         hasInit = false
         pxerView.endDraw(previousPxer)
+    }
+
+    override fun drawLine(
+        layerToDraw: Bitmap,
+        previousPxer: ArrayList<Pxer>,
+        pxerView: Int,
+        startX: Int,
+        startY: Int,
+        endX: Int
+    ) {
+        TODO("Not yet implemented")
     }
 
     init {

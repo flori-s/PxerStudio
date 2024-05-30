@@ -5,35 +5,42 @@
         android:id="@+id/menu_drawing_gridOnOff"
         android:icon="@drawable/ic_grid_on"
         android:title="@string/grid_on_off"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        android:iconTint="?attr/menuTextColor" />
     <item
         android:id="@+id/menu_drawing_resetViewPort"
         android:icon="@drawable/ic_center_focus_weak"
         android:title="@string/reset_view_port"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        android:iconTint="?attr/menuTextColor" />
     <item
         android:id="@+id/menu_drawing_layers"
         android:icon="@drawable/ic_layers"
         android:title="@string/layers"
-        app:showAsAction="always" />
+        app:showAsAction="always"
+        android:iconTint="?attr/menuTextColor" />
 
     <item android:title="@string/layers">
         <menu>
             <item
                 android:id="@+id/menu_drawing_layers_onlyShowSelected"
-                android:title="@string/only_show_selected_layer" />
+                android:title="@string/only_show_selected_layer"
+                android:iconTint="?attr/menuTextColor" />
 
             <item
                 android:id="@+id/menu_drawing_layers_showAll"
-                android:title="@string/show_all_layers" />
+                android:title="@string/show_all_layers"
+                android:iconTint="?attr/menuTextColor" />
 
             <item
                 android:id="@+id/menu_drawing_layers_hideAll"
-                android:title="@string/hide_all_layers" />
+                android:title="@string/hide_all_layers"
+                android:iconTint="?attr/menuTextColor" />
 
             <item
                 android:id="@+id/menu_drawing_layers_mergeAll"
-                android:title="@string/merge_all_layers" />
+                android:title="@string/merge_all_layers"
+                android:iconTint="?attr/menuTextColor" />
         </menu>
     </item>
 
@@ -41,16 +48,20 @@
         <menu>
             <item
                 android:id="@+id/menu_drawing_export_png"
-                android:title="@string/png" />
+                android:title="@string/png"
+                android:iconTint="?attr/menuTextColor" />
             <item
                 android:id="@+id/menu_drawing_export_gif"
-                android:title="@string/gif" />
+                android:title="@string/gif"
+                android:iconTint="?attr/menuTextColor" />
             <item
                 android:id="@+id/menu_drawing_export_atlas"
-                android:title="@string/sprite_atlas" />
+                android:title="@string/sprite_atlas"
+                android:iconTint="?attr/menuTextColor" />
             <item
                 android:id="@+id/menu_drawing_export_folder"
-                android:title="@string/folder" />
+                android:title="@string/folder"
+                android:iconTint="?attr/menuTextColor" />
         </menu>
     </item>
 
@@ -58,20 +69,25 @@
         <menu>
             <item
                 android:id="@+id/menu_drawing_project_manager"
-                android:title="@string/project_manager" />
+                android:title="@string/project_manager"
+                android:iconTint="?attr/menuTextColor" />
             <item
                 android:id="@+id/menu_drawing_project_save"
-                android:title="@string/save" />
+                android:title="@string/save"
+                android:iconTint="?attr/menuTextColor" />
             <item
                 android:id="@+id/menu_drawing_project_open"
-                android:title="@string/open" />
+                android:title="@string/open"
+                android:iconTint="?attr/menuTextColor" />
             <item
                 android:id="@+id/menu_drawing_project_new"
-                android:title="@string/new_new" />
+                android:title="@string/new_new"
+                android:iconTint="?attr/menuTextColor" />
         </menu>
     </item>
 
     <item
         android:id="@+id/menu_drawing_about"
-        android:title="@string/about" />
+        android:title="@string/about"
+        android:iconTint="?attr/menuTextColor" />
 </menu>
