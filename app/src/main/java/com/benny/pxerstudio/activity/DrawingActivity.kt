@@ -130,7 +130,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-
+        binding?.drawingPxerView?.setBackgroundColor(Color.BLACK) // Replace Color.BLACK with the color you want
         mContext = this
         binding = ActivityDrawingBinding.inflate(layoutInflater)
         val view = binding!!.root
@@ -234,8 +234,6 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
     }
 
     fun onToggleShapesPanel(view: View) {
-        println("onToggleShapesPanel")
-        Log.d("ViewDebug", "drawingShapesCardView visibility before: ${binding?.drawingShapesCardView?.visibility}")
         if (binding!!.drawingShapesCardView.isInvisible) {
             binding!!.drawingShapesCardView.isVisible = true
             binding!!.drawingToolsCardView.isInvisible = true
@@ -257,7 +255,6 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                     binding!!.drawingShapesCardView.isInvisible = true
                 }
         }
-        Log.d("ViewDebug", "drawingShapesCardView visibility after: ${binding!!.drawingShapesCardView.visibility}")
     }
 
     @SuppressLint("CheckResult")
@@ -998,7 +995,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
             override fun unbindView(item: ShapesItem) {}
         }
     }
-    private fun isNightModeCurrentlyEnabled(): Boolean {
+    fun isNightModeCurrentlyEnabled(): Boolean {
         val uiModeManager = getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
         return uiModeManager.nightMode == UiModeManager.MODE_NIGHT_YES
     }

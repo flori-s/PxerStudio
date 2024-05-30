@@ -23,6 +23,7 @@ import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.ScaleGestureDetector.OnScaleGestureListener
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.createBitmap
 import com.afollestad.materialdialogs.MaterialDialog
@@ -422,7 +423,12 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
             }
         }
         val bitmap = createBitmap(picWidth, picHeight)
-        bitmap.eraseColor(Color.TRANSPARENT)
+        val backgroundColor = if (context is DrawingActivity && (context as DrawingActivity).isNightModeCurrentlyEnabled()) {
+            ContextCompat.getColor(context, R.color.colorPrimaryDarkTheme)
+        } else {
+            Color.TRANSPARENT
+        }
+        bitmap.eraseColor(backgroundColor)
         pxerLayers.clear()
         pxerLayers.add(PxerLayer(bitmap))
         history.add(ArrayList())
@@ -657,7 +663,11 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
     }
 
     override fun onDraw(canvas: Canvas) {
-        canvas.drawColor(Color.DKGRAY)
+        if (context is DrawingActivity && (context as DrawingActivity).isNightModeCurrentlyEnabled()) {
+            canvas.drawColor(Color.BLACK) // or any color suitable for dark theme
+        } else {
+            canvas.drawColor(Color.WHITE) // or any color suitable for light theme
+        }
         canvas.save()
         canvas.concat(drawMatrix)
         canvas.drawBitmap(bgbitmap!!, null, picBoundary!!, null)

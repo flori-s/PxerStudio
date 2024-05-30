@@ -34,7 +34,7 @@ public class ColorPicker {
         binding.colorpickerSatValView.setColor(startColor);
 
         popupWindow = new PopupWindow(contentView);
-        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#424242")));
+        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#040B37")));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             popupWindow.setElevation(ContextKt.convertDpToPixel(c, 8));
         }

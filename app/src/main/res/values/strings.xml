@@ -54,7 +54,7 @@
     <string name="line_width" translatable="false">Line width</string>
     <string name="brush_width" translatable="false">Brush width</string>
     <string name="ok" translatable="false">Confirm</string>
-    <string name="pencil_width" translatable="false">pencil width</string>
+    <string name="pencil_width" translatable="false">Pencil width</string>
 
     <!-- ProjectManagerActivity -->
     <string name="rename">Rename</string>
@@ -105,4 +105,5 @@
     <string name="width">Width: </string>
     <string name="height">Height: </string>
     <string name="fab_shapes">Shapes</string>
+    <string name="permission_explanation">The app needs permission to be able to save your projects</string>
 </resources>
