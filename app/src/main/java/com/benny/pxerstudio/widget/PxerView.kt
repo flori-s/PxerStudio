@@ -23,6 +23,7 @@ import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.ScaleGestureDetector.OnScaleGestureListener
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.createBitmap
 import com.afollestad.materialdialogs.MaterialDialog
@@ -422,7 +423,21 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
             }
         }
         val bitmap = createBitmap(picWidth, picHeight)
-        bitmap.eraseColor(Color.TRANSPARENT)
+
+        // Determine the background color based on the current theme mode (light or dark)
+        // If the current context is an instance of DrawingActivity and the night mode is enabled,
+        // the color is set to the primary color of the dark theme.
+        // Otherwise, the color is set to transparent.
+        val backgroundColor =
+            if (context is DrawingActivity && (context as DrawingActivity).isNightModeCurrentlyEnabled()) {
+                ContextCompat.getColor(context, R.color.colorPrimaryDarkTheme)
+            } else {
+                Color.TRANSPARENT
+            }
+
+        // Apply the determined color to the bitmap by erasing any existing colors and replacing them with the new color.
+        bitmap.eraseColor(backgroundColor)
+
         pxerLayers.clear()
         pxerLayers.add(PxerLayer(bitmap))
         history.add(ArrayList())
@@ -532,6 +547,7 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
                 Log.v("shit", "$mode")
                 setUnrecordedChanges(true)
             }
+
             Mode.Dropper -> run {
                 if (event.action == MotionEvent.ACTION_DOWN) return@run
                 if (x == downX && downY == y) {
@@ -554,6 +570,7 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
                     }
                 }
             }
+
             Mode.Fill -> run {
                 // The fill tool is brought to us with aid by some open source project online :( I forgot the name
                 if (event.action == MotionEvent.ACTION_UP && x == downX && downY == y) {
@@ -633,8 +650,10 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
                     finishAddHistory()
                 }
             }
+
             Mode.Eraser -> run {
             }
+
             Mode.ShapeTool -> run {
             }
         }
@@ -657,7 +676,16 @@ class PxerView : View, OnScaleGestureListener, GestureDetector.OnGestureListener
     }
 
     override fun onDraw(canvas: Canvas) {
-        canvas.drawColor(Color.DKGRAY)
+        // This block of code is responsible for setting the background color of the canvas.
+        // It checks if the current context is an instance of DrawingActivity and if the night mode is enabled.
+        // If both conditions are met, it sets the canvas background color to black, suitable for a dark theme.
+        // If any of the conditions is not met, it sets the canvas background color to white, suitable for a light theme.
+        if (context is DrawingActivity && (context as DrawingActivity).isNightModeCurrentlyEnabled()) {
+            canvas.drawColor(Color.BLACK) // Set the canvas background color to black for dark theme
+        } else {
+            canvas.drawColor(Color.WHITE) // Set the canvas background color to white for light theme
+        }
+        
         canvas.save()
         canvas.concat(drawMatrix)
         canvas.drawBitmap(bgbitmap!!, null, picBoundary!!, null)

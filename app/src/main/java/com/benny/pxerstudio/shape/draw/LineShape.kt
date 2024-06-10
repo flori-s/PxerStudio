@@ -75,6 +75,7 @@ class LineShape : DrawShape() {
         pxerView.endDraw(previousPxer)
     }
 
+    //
     override fun drawLine(
         layerToDraw: Bitmap,
         previousPxer: ArrayList<Pxer>,

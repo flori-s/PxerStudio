@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:background="?attr/pxerview_background_color" />
+            android:background="@color/colorPrimaryDarkTheme" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/drawing_tools_cardView"
@@ -64,7 +64,6 @@
                 android:id="@+id/drawing_tools_recyclerView"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="bottom"
                 android:clipToPadding="false"
                 android:paddingBottom="90dp" />
 
@@ -97,6 +96,7 @@
                     android:layout_margin="6dp"
                     android:clickable="true"
                     android:focusable="true"
+                    android:layout_gravity="end"
                     app:cardBackgroundColor="@android:color/transparent"
                     app:cardElevation="0dp"
                     app:contentPaddingBottom="8dp"
@@ -121,14 +121,10 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/drawingShapesCardView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="end"
-            android:layout_marginBottom="90dp"
-            android:alpha="0"
-            android:scaleX="0.85"
-            android:scaleY="0.85"
             android:visibility="invisible"
-            app:cardBackgroundColor="#424242"
+            app:cardBackgroundColor="?attr/colorPrimary"
             app:cardCornerRadius="0dp"
             app:cardElevation="10dp"
             app:contentPadding="5dp">
