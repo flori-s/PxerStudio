@@ -68,7 +68,9 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
     companion object {
         const val UNTITLED = "Untitled"
         val rectShapeFactory = RectShape()
+        // Instance of CircleShape class. This object is used to create and manipulate circle shapes in the application.
         val circleShapeFactory = CircleShape()
+        // Instance of TriangleShape class. This object is used to create and manipulate triangle shapes in the application.
         val triangleShapeFactory = TriangleShape()
         val lineShapeFactory = LineShape()
         val eraserShapeFactory = EraserShape()
@@ -101,11 +103,13 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
     private lateinit var toolsAdapter: FastAdapter<ToolItem>
     private lateinit var toolsItemAdapter: ItemAdapter<ToolItem>
 
+    // This is a late-initialized variable for the FastAdapter. FastAdapter is a powerful and flexible RecyclerView adapter.
     private lateinit var shapesAdapter: FastAdapter<ShapesItem>
+
+    // This is a late-initialized variable for the ItemAdapter which is a part of the FastAdapter library.
     private lateinit var shapesItemAdapter: ItemAdapter<ShapesItem>
 
     private lateinit var cp: ColorPicker
-
     private var onlyShowSelected: Boolean = false
 
     fun setTitle(subtitle: String?, edited: Boolean) {
@@ -125,23 +129,26 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
 
     private var binding: ActivityDrawingBinding? = null
 
-    private var isNightModeEnabled = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
-        binding?.drawingPxerView?.setBackgroundColor(Color.BLACK) // Replace Color.BLACK with the color you want
+        // Replace Color.BLACK with the color you want to set as the background color of the DrawingActivity.
+        binding?.drawingPxerView?.setBackgroundColor(Color.BLACK)
         mContext = this
         binding = ActivityDrawingBinding.inflate(layoutInflater)
         val view = binding!!.root
         setContentView(view)
 
+        // Set the theme based on the night mode setting
         val toolbar = findViewById<Toolbar>(R.id.drawing_toolbar)
+        // Check if night mode is currently enabled
         val isDarkThemeActive = isNightModeCurrentlyEnabled()
 
+        // If night mode is enabled, apply the dark theme
         if (isDarkThemeActive) {
+            // Set the toolbar's popup theme to the dark theme
             toolbar.popupTheme = R.style.OverflowMenuThemeDark
         } else {
+            // If night mode is not enabled, apply the light theme
             toolbar.popupTheme = R.style.OverflowMenuThemeLight
         }
 
@@ -155,9 +162,9 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
         binding!!.drawingPxerView.setDropperCallBack(this)
 
         setUpLayersView()
+        // Set up the shapes menu
         setupShapesMenu()
         setupControl()
-
 
         currentProjectPath = pxerPref.getString("lastOpenedProject", null)
         print(currentProjectPath)
@@ -176,6 +183,13 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
         System.gc()
     }
 
+    /**
+     * Overrides the default theme with a light or dark theme based on the current night mode setting.
+     *
+     * @author Floris
+     * @return The theme to be applied. If night mode is enabled, the dark theme is returned.
+     * Otherwise, the light theme is returned.
+     */
     override fun getTheme(): Resources.Theme {
         val theme = super.getTheme()
 
@@ -214,6 +228,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
     @Suppress("UNUSED_PARAMETER")
     fun onToggleToolsPanel(view: View) {
         if (binding!!.drawingToolsCardView.isInvisible) {
+            // If the tools panel is invisible, make it visible
             binding!!.drawingShapesCardView.isInvisible = true
             binding!!.drawingToolsCardView.isVisible = true
             binding!!.drawingToolsCardView
@@ -233,6 +248,18 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
         }
     }
 
+    /**
+     * Toggles the visibility of the shapes panel.
+     *
+     * If the shapes panel is currently invisible, it makes it visible and hides the tools panel.
+     * It also sets the alpha, scaleX, and scaleY properties of the shapes panel to 1, making it fully opaque and at its original size.
+     * It then animates the shapes panel to slide in from the right.
+     *
+     * If the shapes panel is currently visible, it animates the shapes panel to slide out to the right and then makes it invisible.
+     *
+     * @author Floris
+     * @param view The view that triggered this function. This parameter is not used in the function.
+     */
     fun onToggleShapesPanel(view: View) {
         if (binding!!.drawingShapesCardView.isInvisible) {
             binding!!.drawingShapesCardView.isVisible = true
@@ -258,26 +285,33 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
     }
 
     @SuppressLint("CheckResult")
+    // This function is responsible for setting up the shapes menu in the application.
     private fun setupShapesMenu() {
+        // Post a runnable to the message queue of the shapes card view. This runnable adjusts the translation of the shapes card view.
         binding!!.drawingShapesCardView.post {
             binding!!.drawingShapesCardView.translationX =
                 (binding!!.drawingShapesCardView.width).toFloat()
         }
 
+        // Initialize the shapes item adapter and the shapes adapter.
         shapesItemAdapter = ItemAdapter()
         shapesAdapter = FastAdapter.with(shapesItemAdapter)
 
+        // Set the layout manager and the adapter for the shapes recycler view.
         binding!!.drawingShapesRecyclerView.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true)
         binding!!.drawingShapesRecyclerView.adapter = shapesAdapter
 
+        // Set the item animator for the shapes recycler view.
         binding!!.drawingShapesRecyclerView.itemAnimator = DefaultItemAnimator()
 
+        // Get the select extension of the shapes adapter and configure its properties.
         val selectExtension = shapesAdapter.getSelectExtension()
         selectExtension.isSelectable = true
         selectExtension.multiSelect = false
         selectExtension.allowDeselection = true
 
+        // Set the on click listener for the shapes adapter. This listener changes the mode and the shape tool of the Pxer view based on the clicked item.
         shapesAdapter.onClickListener = { _, _, item, _ ->
             binding!!.drawingFabShapes.setImageDrawable(ContextCompat.getDrawable(this, item.icon))
             when (item.icon) {
@@ -301,6 +335,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
             false
         }
 
+        // Add the shape items to the shapes item adapter and reverse their order.
         with(shapesItemAdapter) {
             add(ShapesItem(R.drawable.ic_circle))
             add(ShapesItem(R.drawable.ic_triangle))
@@ -308,6 +343,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
             add(ShapesItem(R.drawable.ic_remove))
         }
         shapesItemAdapter.adapterItems.reverse()
+        // Select the first item in the shapes adapter.
         shapesAdapter.getSelectExtension().select(0)
     }
 
@@ -333,6 +369,7 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
         selectExtension.allowDeselection = true
 
         toolsAdapter.onClickListener = { _, _, item, _ ->
+            // Set the image of the tools FAB to the image of the clicked item.
             binding!!.drawingToolsFab.setImageDrawable(ContextCompat.getDrawable(this, item.icon))
             when (item.icon) {
                 R.drawable.ic_format_color_fill -> {
@@ -354,46 +391,70 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
         }
 
         toolsAdapter.onLongClickListener = { _, _, item, _ ->
+            // Set the image of the tools FAB to the image of the clicked item.
             binding!!.drawingToolsFab.setImageDrawable(ContextCompat.getDrawable(this, item.icon))
             when (item.icon) {
                 R.drawable.ic_eraser -> {
                     MaterialDialog(this).show {
+                        // Set the custom view of the dialog to the seekbar layout.
                         customView(R.layout.dialog_seekbar)
                         title(R.string.eraser_width)
+                        // Get the seekbar and the text view from the custom view.
                         val seekBar = getCustomView().findViewById<SeekBar>(R.id.dialog_seekbar)
+                        // Set the progress of the seekbar to the width of the eraser shape factory.
                         val valueTextView = getCustomView().findViewById<TextView>(R.id.dialog_seekbar_value)
+                        // Set the text of the text view to the progress of the seekbar.
                         seekBar.progress = eraserShapeFactory.width.toInt()
+                        // Set the text of the text view to the progress of the seekbar.
                         valueTextView.text = seekBar.progress.toString()
+                        // Set the on seek bar change listener for the seek bar.
                         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                            // Override the onProgressChanged function.
                             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                                 valueTextView.text = progress.toString()
                             }
+                            // Override the onStartTrackingTouch function.
                             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+                            // Override the onStopTrackingTouch function.
                             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
                         })
+                        // Set the positive button of the dialog to the OK button.
                         positiveButton(R.string.ok) {
+                            // Set the width of the eraser shape factory to the progress of the seekbar.
                             eraserShapeFactory.width = seekBar.progress.toFloat()
+                            // Set the shape tool of the Pxer view to the eraser shape factory.
                             binding!!.drawingPxerView.shapeTool = eraserShapeFactory
                         }
                     }
                 }
                 R.drawable.ic_brush -> {
                     MaterialDialog(this).show {
+                        // Set the custom view of the dialog to the seekbar layout.
                         customView(R.layout.dialog_seekbar)
                         title(R.string.pencil_width)
+                        // Get the seekbar and the text view from the custom view.
                         val seekBar = getCustomView().findViewById<SeekBar>(R.id.dialog_seekbar)
+                        // Set the progress of the seekbar to the width of the brush shape factory.
                         val valueTextView = getCustomView().findViewById<TextView>(R.id.dialog_seekbar_value)
+                        // Set the text of the text view to the progress of the seekbar.
                         seekBar.progress = brushShapeFactory.width.toInt()
+                        // Set the text of the text view to the progress of the seekbar.
                         valueTextView.text = seekBar.progress.toString()
+                        // Set the on seek bar change listener for the seek bar.
                         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                            // Override the onProgressChanged function.
                             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                                 valueTextView.text = progress.toString()
                             }
+                            // Override the onStartTrackingTouch function.
                             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+                            // Override the onStopTrackingTouch function.
                             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
                         })
                         positiveButton(R.string.ok) {
+                            // Set the width of the brush shape factory to the progress of the seekbar.
                             brushShapeFactory.width = seekBar.progress.toFloat()
+                            // Set the shape tool of the Pxer view to the brush shape factory.
                             binding!!.drawingPxerView.shapeTool = brushShapeFactory
                         }
                     }
@@ -401,26 +462,36 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
 
                 R.drawable.ic_remove -> {
                     MaterialDialog(this).show {
+                        // Set the custom view of the dialog to the seekbar layout.
                         customView(R.layout.dialog_seekbar)
                         title(R.string.line_width)
                         val seekBar = getCustomView().findViewById<SeekBar>(R.id.dialog_seekbar)
+                        // Get the text view from the custom view.
                         val valueTextView = getCustomView().findViewById<TextView>(R.id.dialog_seekbar_value)
+                        // Set the progress of the seekbar to the width of the line shape factory.
                         seekBar.progress = lineShapeFactory.width.toInt()
+                        // Set the text of the text view to the progress of the seekbar.
                         valueTextView.text = seekBar.progress.toString()
+                        // Set the on seek bar change listener for the seek bar.
                         seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                            // Override the onProgressChanged function.
                             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                                 valueTextView.text = progress.toString()
                             }
+                            // Override the onStartTrackingTouch function.
                             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+                            // Override the onStopTrackingTouch function.
                             override fun onStopTrackingTouch(seekBar: SeekBar?) {}
                         })
+                        // Set the positive button of the dialog to the OK button.
                         positiveButton(R.string.ok) {
+                            // Set the width of the line shape factory to the progress of the seekbar.
                             lineShapeFactory.width = seekBar.progress.toFloat()
+                            // Set the shape tool of the Pxer view to the line shape factory.
                             binding!!.drawingPxerView.shapeTool = lineShapeFactory
                         }
                     }
                 }
-
             }
             false
         }
@@ -588,11 +659,12 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-
         // Set the theme based on the night mode setting
         if (isNightModeCurrentlyEnabled()) {
+            // If night mode is enabled, apply the dark theme
             setTheme(R.style.AppThemeDark)
         } else {
+            // If night mode is not enabled, apply the light theme
             setTheme(R.style.AppTheme)
         }
         menuInflater.inflate(R.menu.menu_activity_drawing, menu)
@@ -966,22 +1038,37 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
             override fun unbindView(item: ToolItem) {}
         }
     }
-
+    /**
+     * This inner class represents a shape item for the FastAdapter.
+     * Each shape item has an icon that is used to represent it in the UI.
+     *
+     * @property icon The resource ID of the icon for this shape item.
+     */
     private inner class ShapesItem(var icon: Int) : AbstractItem<ShapesItem.ViewHolder>() {
 
+        // The type of this item. This is used by the FastAdapter to differentiate between different types of items.
         override val type: Int
             get() = R.id.item_shape
 
+        // The layout resource for this item. This is used by the FastAdapter to inflate the view for this item.
         override val layoutRes: Int
             get() = R.layout.item_shape
 
+        // This function is used by the FastAdapter to get a ViewHolder for this item.
         override fun getViewHolder(v: View): ViewHolder {
             return ViewHolder(v)
         }
 
+        /**
+         * This inner class represents the ViewHolder for a ShapesItem.
+         * It contains the logic for binding a ShapesItem to the view.
+         *
+         * @property iv The ImageView that displays the icon for the shape item.
+         */
         inner class ViewHolder(view: View) : FastAdapter.ViewHolder<ShapesItem>(view) {
             var iv: ImageView = view as ImageView
 
+            // This function is used by the FastAdapter to bind a ShapesItem to the ViewHolder.
             override fun bindView(item: ShapesItem, payloads: List<Any>) {
                 if (isSelected) {
                     iv.alpha = 1f
@@ -992,9 +1079,16 @@ class DrawingActivity : AppCompatActivity(), ItemTouchCallback, PxerView.OnDropp
                 iv.setImageResource(item.icon)
             }
 
+            // This function is used by the FastAdapter to unbind a ShapesItem from the ViewHolder.
             override fun unbindView(item: ShapesItem) {}
         }
     }
+
+    /**
+     * This function checks if the night mode is currently enabled in the application.
+     *
+     * @return True if the night mode is enabled, false otherwise.
+     */
     fun isNightModeCurrentlyEnabled(): Boolean {
         val uiModeManager = getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
         return uiModeManager.nightMode == UiModeManager.MODE_NIGHT_YES

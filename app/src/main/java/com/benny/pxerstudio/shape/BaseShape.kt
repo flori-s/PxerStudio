@@ -45,5 +45,6 @@ abstract class BaseShape {
         this.finishAddHistory()
     }
 
+    // Add a Pxer object to the previousPxer list.
     abstract fun drawLine(layerToDraw: Bitmap, previousPxer: ArrayList<PxerView.Pxer>, pxerView: Int, startX: Int, startY: Int, endX: Int)
 }

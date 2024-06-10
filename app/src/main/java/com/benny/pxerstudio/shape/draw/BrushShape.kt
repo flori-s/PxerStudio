@@ -68,7 +68,10 @@ class BrushShape : BaseShape() {
         pxerView.endDraw(previousPxer)
     }
 
+
+    // Draw a line on the PxerView.
     override fun drawLine(
+        // The layer to draw on.
         layerToDraw: Bitmap,
         previousPxer: ArrayList<Pxer>,
         pxerView: Int,
