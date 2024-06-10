@@ -30,6 +30,7 @@ class RectShape : DrawShape() {
 
         for (i in 0 until rectWidth + 1) {
             val mX = startX + i * if (endX - startX < 0) -1 else 1
+            // Draw the top and bottom sides of the rectangle
             addPxerView(previousPxer, pxerView, mX, startY)
             addPxerView(previousPxer, pxerView, mX, endY)
             drawOnLayer(layerToDraw, pxerView, mX, startY)
@@ -38,6 +39,7 @@ class RectShape : DrawShape() {
 
         for (i in 1 until rectHeight) {
             val mY = startY + i * if (endY - startY < 0) -1 else 1
+            // Draw the left and right sides of the rectangle
             addPxerView(previousPxer, pxerView, startX, mY)
             addPxerView(previousPxer, pxerView, endX, mY)
             drawOnLayer(layerToDraw, pxerView, startX, mY)
@@ -52,7 +54,9 @@ class RectShape : DrawShape() {
         pxerView.endDraw(previousPxer)
     }
 
+    // Draw a line on the PxerView.
     override fun drawLine(
+        // The layer to draw on.
         layerToDraw: Bitmap,
         previousPxer: ArrayList<Pxer>,
         pxerView: Int,

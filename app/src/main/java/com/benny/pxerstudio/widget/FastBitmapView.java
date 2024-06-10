@@ -93,6 +93,7 @@ public class FastBitmapView extends View {
 
         strokeWidth = ContextKt.convertDpToPixel(getContext(), strokeWidth);
 
+        // Set the icon to be the visibility off icon
         invisibleBitmap = Utils.drawableToBitmap(Objects.requireNonNull(ContextCompat.getDrawable(getContext(), R.drawable.ic_visibility_off)));
 
         setWillNotDraw(false);
